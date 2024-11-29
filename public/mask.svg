@@ -1,0 +1,26 @@
+<svg width="1920" height="1130" viewBox="0 0 1920 1130" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_36_47" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="1920" height="1130">
+<rect width="1920" height="1130" fill="#126BB0"/>
+</mask>
+<g mask="url(#mask0_36_47)">
+<rect width="1920" height="1130" fill="#126BB0"/>
+<g opacity="0.22">
+<circle opacity="0.1" cx="91" cy="21" r="99" fill="white"/>
+<circle opacity="0.23" cx="-93.5" cy="526.5" r="173.5" fill="white"/>
+<circle opacity="0.34" cx="442.5" cy="241.5" r="38.5" fill="white"/>
+<circle opacity="0.54" cx="1484.5" cy="145.5" r="44.5" fill="white"/>
+<circle opacity="0.34" cx="1859.5" cy="143.5" r="143.5" fill="white"/>
+<circle opacity="0.38" cx="1771.5" cy="1311.5" r="255.5" fill="white"/>
+<circle opacity="0.18" cx="1321.5" cy="1134.5" r="129.5" fill="white"/>
+<circle opacity="0.18" cx="1495.5" cy="899.5" r="44.5" fill="white"/>
+<circle opacity="0.18" cx="1839.5" cy="467.5" r="25.5" fill="white"/>
+<circle opacity="0.3" cx="1772.5" cy="874.5" r="70.5" fill="white"/>
+<circle opacity="0.18" cx="134.5" cy="1292.5" r="245.5" fill="white"/>
+<circle opacity="0.18" cx="501.5" cy="1153.5" r="26.5" fill="white"/>
+<circle opacity="0.18" cx="136.5" cy="884.5" r="56.5" fill="white"/>
+<circle opacity="0.26" cx="870.5" cy="781.5" r="89.5" fill="white"/>
+<circle opacity="0.18" cx="979.5" cy="56.5" r="161.5" fill="white"/>
+<circle opacity="0.28" cx="419.5" cy="876.5" r="70.5" fill="white"/>
+</g>
+</g>
+</svg>

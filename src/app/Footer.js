@@ -45,27 +45,19 @@ const Line = styled.div`
   margin-bottom: 20px;
 
 `
+const Map = styled.div`
 
+  width: 100%;
+  height: 200px;
+  background-color: gray;
+  border-radius: 16px;
 
-const ContactInfo = styled.div`
-  margin-top: 20px;
-
-
-  p {
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: start;
-    gap: 25px;
-    text-align: start;
-    margin-bottom: 10px;
-
-  }
-`;
+`
 
 const SocialIcons = styled.div`
   display: flex;
   justify-content: center;
+
   
   gap: 20px;
   width: 100%;
@@ -85,7 +77,7 @@ const SocialIcons = styled.div`
 const FooterLogo = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   margin: auto;
   margin-bottom: 20px;
 
@@ -147,11 +139,17 @@ export default function Footer() {
 
       {/* Map and Contact Info */}
       <Column>
-        <ContactInfo>
-          <p><img src="/location.svg"></img>3FL Zongze Rd., Jingkou Area, Zhenjiang, 212000 P.R.China</p>
-          <p><img src="/phone.svg"></img>+86-511-83995516</p>
-          <p><img src="/email.svg"></img>sales@wellste.com</p>
-        </ContactInfo>
+        <Map>
+        <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2490.6484743464715!2d119.4858097!3d32.21244!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x35b42a5bbcd1e61b:0x1f80f6634c771142!2szhenjiang+zheshang+hotel!5e0!3m2!1sen!2sus!4v1616165494470!5m2!1sen!2sus"
+        width="100%"
+        height="100%"
+        style={{border: 'none', borderRadius: '16px'}}
+        allowFullScreen=""
+        loading="lazy">
+      </iframe>
+        </Map>
+        
       </Column>
 
       {/* Footer Bottom */}
@@ -164,7 +162,10 @@ export default function Footer() {
       <a href="#" aria-label="Twitter"><img src="/twitter.svg"></img></a>
       <a href="#" aria-label="Telegram"><img src="/telegram.svg"></img></a>
       <a href="#" aria-label="Facebook"><img src="/facebook.svg"></img></a>
+      <a href="#" aria-label="phone"><img src="/facebook.svg"></img></a>
+      <a href="#" aria-label="email"><img src="/facebook.svg"></img></a>
     </SocialIcons>
+    
   </FooterLogo>
     </FooterContainer>
   );

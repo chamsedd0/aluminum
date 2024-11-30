@@ -40,3 +40,9 @@ a {
     color-scheme: dark;
   }
 }
+
+
+
+body::-webkit-scrollbar {
+  display: none; /* Hide scrollbar in WebKit browsers like Chrome, Safari */
+}

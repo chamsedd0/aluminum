@@ -1,4 +1,3 @@
-// components/QuotePopup.js
 import styled from 'styled-components';
 import { useState } from 'react';
 
@@ -58,6 +57,33 @@ const Form = styled.form`
     gap: 16px;
     width: 100%;
   }
+
+  /* Style for select elements */
+select {
+  width: 100%;
+  padding: 10px 20px;
+  margin: 8px 0;
+  border-radius: 100px; /* Rounded corners */
+  font-size: 14px;
+  background-color: #fff; /* White background */
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+  appearance: none; /* Removes default dropdown appearance */
+  cursor: pointer; /* Pointer cursor on hover */
+  -webkit-appearance: none; /* Remove default styling in Safari */
+  -moz-appearance: none; /* Remove default styling in Firefox */
+}
+
+/* Optional: Style the dropdown arrow */
+select::-ms-expand {
+  display: none; /* Removes default dropdown arrow in Internet Explorer */
+}
+
+/* Focus effect */
+select:focus {
+  border-color: #0056b3; /* Blue border on focus */
+  outline: none; /* Removes the default outline */
+}
+
 `;
 
 const Input = styled.input`
@@ -69,7 +95,6 @@ const Input = styled.input`
   outline: none;
 `;
 
-
 const Textarea = styled.textarea`
   padding: 14px 20px;
   border-radius: 24px;
@@ -79,14 +104,12 @@ const Textarea = styled.textarea`
   resize: none;
   min-height: 100px;
   width: 100%;
-
 `;
 
 const CheckboxContainer = styled.div`
   display: flex;
   align-items: center;
   align-self: start;
-
 `;
 
 const Checkbox = styled.input`
@@ -97,7 +120,7 @@ const CallToAction = styled.button`
   font-size: 14px;
   font-weight: bold;
   color: white;
-  background-color: #126BB0;
+  background-color: #F4880C;
   border: none;
   border-radius: 100px;
   cursor: pointer;
@@ -107,21 +130,13 @@ const CallToAction = styled.button`
   min-width: 200px;
 
   &:hover {
-    background-color: #1061a0;
+    background-color: #E7810D;
   }
 
   @media (max-width: 768px) {
     padding: 0px 20px;
     height: 50px;
     font-size: 12px;
-  }
-`;
-
-const CallToAction2 = styled(CallToAction)`
-  background-color: #F4880C;
-
-  &:hover {
-    background-color: #db7909;
   }
 `;
 
@@ -139,26 +154,138 @@ const CloseButton = styled.img`
 `;
 
 export default function QuotePopup({ isOpen, onClose }) {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    quantity: '',
+    mesurements: '',
+    message: '',
+    subscribe: false,
+  });
+  const [status, setStatus] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('Sending...');
+  
+    try {
+      
+  
+      const response = await fetch('/api/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        setStatus('Email sent successfully!');
+        setFormData({ name: '', email: '', message: '', subscribe: false, mesurements: '', quantity: '', company: '' });
+      } else {
+        setStatus('Failed to send email.');
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus('An error occurred.');
+    }
+  };
+  
+
   return (
     <Overlay isOpen={isOpen} onClick={() => onClose(false)}>
       <PopupContainer onClick={(e) => e.stopPropagation()}>
         <CloseButton src='/close.svg' onClick={() => onClose(false)}></CloseButton>
         <FormTitle>Get quotes now!</FormTitle>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <div className='smaller'>
-            <Input type="text" placeholder="Full Name" />
-            <Input type="email" placeholder="Email" />
+            <Input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
           </div>
-          <Input type="text" placeholder="Company Name"></Input>
-          <Textarea placeholder="Please specify alloy and temper" />
-          <Input type="number" placeholder="Quantity" />
-          <Input type="text" placeholder="Critical Dimensions" />
+          <Input
+              type="text"
+              name="company"
+              placeholder="Company Name"
+              value={formData.company}
+              onChange={handleChange}
+              required
+            />
+          <Textarea
+            name="message"
+            placeholder="Your Message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+          ></Textarea>
+          <div className='smaller'>
+            <select
+              type="text"
+              name="quantity"
+              placeholder="Quantity"
+              value={formData.quantity}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Quantity</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="1">6</option>
+              <option value="2">7</option>
+              <option value="3">8</option>
+              <option value="4">9</option>
+              <option value="5">10</option>
+            </select>
+            <select
+              type="text"
+              name="mesurements"
+              placeholder="Critical Mesurements"
+              value={formData.mesurements}
+              onChange={handleChange}
+              required
+              >
+                <option value="">Select Measurements</option>
+                <option value="1x2">1x2</option>
+                <option value="2x5">2x5</option>
+                <option value="3x2">3x2</option>
+                <option value="4x1">4x1</option>
+              </select>
+          </div>
           <CheckboxContainer>
-            <Checkbox type="checkbox"/>
-            <label>I would like to receive Wellste catalog on my email</label>
+            <Checkbox
+              type="checkbox"
+              name="subscribe"
+              checked={formData.subscribe}
+              onChange={handleChange}
+            />
+            <label htmlFor="subscribe">Subscribe to our newsletter</label>
           </CheckboxContainer>
-          <CallToAction2 type='submit' onClick={(e) => e.preventDefault()}>Get Quote Now</CallToAction2>
-          </Form>
+          <CallToAction type="submit">Get Quotes now</CallToAction>
+          <p>{status}</p>
+        </Form>
       </PopupContainer>
     </Overlay>
   );

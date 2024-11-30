@@ -1,5 +1,7 @@
 // components/Footer.js
 import styled from 'styled-components';
+import { useState } from 'react';
+
 
 const FooterContainer = styled.footer`
   display: flex;
@@ -85,7 +87,35 @@ const Form = styled.form`
     gap: 16px;
     width: 100%;
   }
+
+  /* Style for select elements */
+select {
+  width: 100%;
+  padding: 10px 20px;
+  margin: 8px 0;
+  border-radius: 100px; /* Rounded corners */
+  font-size: 14px;
+  background-color: #fff; /* White background */
+  box-sizing: border-box; /* Ensures padding doesn't affect width */
+  appearance: none; /* Removes default dropdown appearance */
+  cursor: pointer; /* Pointer cursor on hover */
+  -webkit-appearance: none; /* Remove default styling in Safari */
+  -moz-appearance: none; /* Remove default styling in Firefox */
+}
+
+/* Optional: Style the dropdown arrow */
+select::-ms-expand {
+  display: none; /* Removes default dropdown arrow in Internet Explorer */
+}
+
+/* Focus effect */
+select:focus {
+  border-color: #0056b3; /* Blue border on focus */
+  outline: none; /* Removes the default outline */
+}
+
 `;
+
 
 const Input = styled.input`
   padding: 10px 20px;
@@ -145,19 +175,55 @@ const CallToAction = styled.button`
   }
 `;
 
-const CallToAction2 = styled(CallToAction)`
-  background-color: #F4880C;
-
-  &:hover {
-    background-color: #db7909;
-  }
-`;
-
 
 
 
 
 export default function PreFooter() {
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    company: '',
+    quantity: '',
+    mesurements: '',
+    message: '',
+    subscribe: false,
+  });
+  const [status, setStatus] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === 'checkbox' ? checked : value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus('Sending...');
+  
+    try {
+      
+  
+      const response = await fetch('/api/email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        setStatus('Email sent successfully!');
+        setFormData({ name: '', email: '', message: '', subscribe: false, mesurements: '', quantity: '', company: '' });
+      } else {
+        setStatus('Failed to send email.');
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus('An error occurred.');
+    }
+  };
   return (
     <FooterContainer>
       <LeftSection>
@@ -165,22 +231,89 @@ export default function PreFooter() {
         <Subtitle>Get your custom aluminum extrusion quotes</Subtitle>
       </LeftSection>
       <PopupContainer>
-        <FormTitle>Get quotes now!</FormTitle>
-        <Form>
+      <FormTitle>Get quotes now!</FormTitle>
+        <Form onSubmit={handleSubmit}>
           <div className='smaller'>
-            <Input type="text" placeholder="Full Name" />
-            <Input type="email" placeholder="Email" />
+            <Input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+            <Input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
           </div>
-          <Input type="text" placeholder="Company Name"></Input>
-          <Textarea placeholder="Please specify alloy and temper" />
-          <Input type="number" placeholder="Quantity" />
-          <Input type="text" placeholder="Critical Dimensions" />
+          <Input
+              type="text"
+              name="company"
+              placeholder="Company Name"
+              value={formData.company}
+              onChange={handleChange}
+              required
+            />
+          <Textarea
+            name="message"
+            placeholder="Your Message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+          ></Textarea>
+          <div className='smaller'>
+            <select
+              type="text"
+              name="quantity"
+              placeholder="Quantity"
+              value={formData.quantity}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Quantity</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="1">6</option>
+              <option value="2">7</option>
+              <option value="3">8</option>
+              <option value="4">9</option>
+              <option value="5">10</option>
+            </select>
+            <select
+              type="text"
+              name="mesurements"
+              placeholder="Critical Mesurements"
+              value={formData.mesurements}
+              onChange={handleChange}
+              required
+              >
+                <option value="">Select Measurements</option>
+                <option value="1x2">1x2</option>
+                <option value="2x5">2x5</option>
+                <option value="3x2">3x2</option>
+                <option value="4x1">4x1</option>
+              </select>
+          </div>
           <CheckboxContainer>
-            <Checkbox type="checkbox"/>
-            <label>I would like to receive Wellste catalog on my email</label>
+            <Checkbox
+              type="checkbox"
+              name="subscribe"
+              checked={formData.subscribe}
+              onChange={handleChange}
+            />
+            <label htmlFor="subscribe">Subscribe to our newsletter</label>
           </CheckboxContainer>
-          <CallToAction2 type='submit' onClick={(e) => e.preventDefault()}>Get Quote Now</CallToAction2>
-          </Form>
+          <CallToAction type="submit">Get Quotes now</CallToAction>
+          <p>{status}</p>
+        </Form>
       </PopupContainer>
     </FooterContainer>
   );
